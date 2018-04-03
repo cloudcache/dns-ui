@@ -492,12 +492,35 @@ global $output_formatter;
 	<?php if($zone->dnssec) { ?>
 	<div role="tabpanel" class="tab-pane" id="cryptokeys">
 		<h2 class="sr-only">DNSSEC</h2>
-		<h3>DS records</h3>
-		<ul>
-			<?php foreach($cryptokeys->ds as $ds) { ?>
-			<li><code><?php out($zone->name.' DS '.$ds) ?></code></li>
-			<?php } ?>
-		</ul>
+		<?php foreach($cryptokeys as $cryptokey) { ?>
+		<div class="panel <?php out($cryptokey->active ? 'panel-success' : 'panel-default') ?>">
+			<div class="panel-heading">
+				<h3 class="panel-title"><?php out($cryptokey->type.' #'.$cryptokey->id.': '.strtoupper($cryptokey->keytype))?></h3>
+			</div>
+			<div class="panel-body">
+				<dl>
+					<dt>Algorithm</dt>
+					<dd><?php out($cryptokey->algorithm)?></dd>
+					<dt>Bits</dt>
+					<dd><?php out($cryptokey->bits)?></dd>
+					<dt>Flags</dt>
+					<dd><?php out($cryptokey->flags)?></dd>
+					<dt>DNSKEY</dt>
+					<dd><code><?php out($zone->name.' DNSKEY '.$cryptokey->dnskey)?></code></dd>
+					<?php if(isset($cryptokey->ds)) { ?>
+					<dt>DS records</dt>
+					<dd>
+						<ul>
+							<?php foreach($cryptokey->ds as $ds) { ?>
+							<li><code><?php out($zone->name.' DS '.$ds) ?></code></li>
+							<?php } ?>
+						</ul>
+					</dd>
+					<?php } ?>
+				</dl>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
 	<?php } ?>
 	<div role="tabpanel" class="tab-pane" id="import">

@@ -297,7 +297,7 @@ class Zone extends Record {
 		if(is_null($this->cryptokeys)) {
 			$data = $this->powerdns->get('zones/'.urlencode($this->pdns_id).'/cryptokeys');
 		}
-		$this->cryptokeys = reset($data);
+		$this->cryptokeys = $data;
 		return $this->cryptokeys;
 	}
 
